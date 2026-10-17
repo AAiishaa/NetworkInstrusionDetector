@@ -64,8 +64,8 @@ tes_size = 0.2
 
 expected_feature_count = 41
 #label colum describing connection class - whats bieng learnt
-# difficulty describes difficulty of classfiying the exampple
-labal_column = "label"
+# difficulty describes difficulty of classfiying the exampple (part of the metadata)
+label_column= "label"
 difficulty_column = "difficulty"
 
 # categorical features(which will be numerically prepreasented)
