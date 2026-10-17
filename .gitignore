@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local data
+data/raw/*
+!data/raw/README.md
+
+# Generated models
+models/*
+!models/.gitkeep
+
+# Generated reports
+reports/*
+!reports/figures/
+!reports/figures/.gitkeep
+
+# macOS
+.DS_Store
+
+# Test and tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
