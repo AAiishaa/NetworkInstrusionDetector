@@ -58,7 +58,7 @@ confusion_matrix_path = figures_dir / "confusion_matrix.png"
 random_state = 42
 
 #represasents 20% of dataset when creating a split
-tes_size = 0.2
+test_size = 0.2
 
 #desribing NSL KDD dataset structure
 
