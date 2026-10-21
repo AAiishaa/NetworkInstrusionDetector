@@ -159,13 +159,3 @@ def load_testing_data():
     return _load_dataset(test_data_path, "Testing")
 
 
-# 3. Load training data WITHOUT satan
-def load_training_data_without_satan():
-    data = load_training_data()
-    return data[data[label_column] != "satan"].copy()
-
-
-# 4. Load test data WITHOUT satan
-def load_testing_data_without_satan():
-    data = load_testing_data()
-    return data[data[label_column] != "satan"].copy()
