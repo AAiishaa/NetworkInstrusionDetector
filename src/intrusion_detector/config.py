@@ -45,7 +45,7 @@ model_metadata_path = model_dir / "model_metadata.json"
 # deifning evaluation path
 
 #summary metrics such as accuracy, precision, recall, F1-score 
-metics_path = reports_dir / "metrics.json"
+metrics_path = reports_dir / "metrics.json"
 classification_report_path = reports_dir / "classification_report.json"
 # visual breakdown of correct and incorrect predictions.
 confusion_matrix_path = figures_dir / "confusion_matrix.png"
@@ -81,6 +81,5 @@ categorical_features = [
 normal_label = "normal"
 normal_target = 0
 attack_target = 1
-
 
 
