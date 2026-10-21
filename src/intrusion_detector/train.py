@@ -13,13 +13,13 @@ from .config import (
     random_state,
 )
 
-from .data import load_training_data
+from .data import load_training_data_without_satan
 from .preprocessing import build_preprocessor, split_features_and_target
 
 
 def train_model():
     # Load the training dataset
-    data = load_training_data()
+    data = load_training_data_without_satan()
 
     # x contains the 41 input features
     # y contains the correct label 0 or 1
@@ -67,3 +67,7 @@ def train_model():
 
 if __name__ == "__main__":
     train_model()
+
+
+
+    
