@@ -69,7 +69,7 @@ def evaluate_model():
 
     # create report folder
 
-    reports_dir.mkdir(parents=True, exists_ok =True)
+    reports_dir.mkdir(parents=True, exist_ok =True)
 
 
     # save the metrics
@@ -137,7 +137,4 @@ def evaluate_model():
     
 
     
-
-
-
 
