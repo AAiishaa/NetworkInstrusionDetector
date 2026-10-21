@@ -145,38 +145,27 @@ def _load_dataset(file_path: Path, dataset_name: str) -> pd.DataFrame:
             f"{dataset_name} dataset contains missing values: {details}"
         )
 
-    # check feature count
-    # creates a list of columns except label and difficulty
-    feature_columns = [
-        column
-        for column in data.columns
-        if column not in (label_column, difficulty_column)
-    ]
-
-    if len(feature_columns) != expected_feature_count:
-        raise ValueError(
-            f"Expected {expected_feature_count} features, "
-            f"but found {len(feature_columns)}."
-        )
-
-    # checking categorical columns
-    # compares the categorical feature names from config.py with the columns actually present in the dataset
-    missing_categorical = set(categorical_features) - set(data.columns)
-
-    if missing_categorical:
-        raise ValueError(
-            f"Missing categorical columns: {sorted(missing_categorical)}"
-        )
-
+    
     return data
 
 
-# function to load the training dataset
-# Both use _load_dataset(), so we only need to maintain one set of validation rules
-def load_training_data() -> pd.DataFrame:
+# 1. Load all training data
+def load_training_data():
     return _load_dataset(train_data_path, "Training")
 
 
-# function to load the testing dataset
-def load_testing_data() -> pd.DataFrame:
+# 2. Load all test data
+def load_testing_data():
     return _load_dataset(test_data_path, "Testing")
+
+
+# 3. Load training data WITHOUT satan
+def load_training_data_without_satan():
+    data = load_training_data()
+    return data[data[label_column] != "satan"].copy()
+
+
+# 4. Load test data WITHOUT satan
+def load_testing_data_without_satan():
+    data = load_testing_data()
+    return data[data[label_column] != "satan"].copy()
