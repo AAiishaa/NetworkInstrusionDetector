@@ -4,7 +4,7 @@ import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 
-from .config import model_path, random_state
+from .config import model_path, random_state, model_dir
 from .data import load_training_data
 from .preprocessing import build_preprocessor, split_features_and_target
 
@@ -28,6 +28,9 @@ def retrain_model():
 
     # Fit model on the data
     model.fit(X, y)
+
+    # Automatically create models folder if it was deleted
+    model_dir.mkdir(parents=True, exist_ok=True)
 
     # Overwrite the saved model
     joblib.dump(model, model_path)
