@@ -4,7 +4,7 @@ import joblib
 import pandas as pd
 
 from .config import model_path, reports_dir
-from .data import load_testing_data_without_satan
+from .data import load_testing_data
 from .preprocessing import split_features_and_target
 
 
@@ -12,7 +12,7 @@ def predict():
 
     # load testing dataset
 
-    data = load_testing_data_without_satan()
+    data = load_testing_data()
 
     X, y = split_features_and_target(data)
 
