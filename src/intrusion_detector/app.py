@@ -6,6 +6,7 @@ from mangum import Mangum
 import pandas as pd
 import os
 import time
+import uuid  # NEW: gives every prediction a unique id
 
 import boto3 # for dynamodb
 
@@ -107,13 +108,18 @@ def predict_traffic(request: PredictionRequest):
         result_label = "attack" if prediction == 1 else "normal"
         
         # Log prediction result to DynamoDB (wrapped in try/except so local testing doesn't crash if AWS creds aren't configured yet)
+        # CHANGED: only a few fields are logged, and numbers are stored as strings
+        # (DynamoDB does not accept Python floats)
         try:
             table.put_item(
                 Item={
-                    "prediction_id": str(time.time()),
+                    "prediction_id": str(uuid.uuid4()),
                     "prediction_code": int(prediction),
                     "prediction_label": result_label,
-                    **input_data
+                    "protocol_type": request.protocol_type,
+                    "service": request.service,
+                    "src_bytes": str(request.src_bytes),
+                    "dst_bytes": str(request.dst_bytes),
                 }
             )
         except Exception:
