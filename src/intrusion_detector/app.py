@@ -2,7 +2,12 @@
 
 from fastapi import FastAPI, HTTPException
 import joblib
+from mangum import Mangum
 import pandas as pd
+import os
+import time
+
+import boto3 # for dynamodb
 
 # to validate structure of the incoming traffic
 # so the api rejects malformed requests
@@ -16,6 +21,14 @@ app = FastAPI(
     version = "1.0"
 
 )
+
+# wrap in mangum for aws lambda
+handler = Mangum(app)
+
+# Initialize DynamoDB client (uses environment variable for table name)
+dynamodb = boto3.resource("dynamodb")
+table_name = os.getenv("DYNAMODB_TABLE_NAME", "NIDS-Predictions")
+table = dynamodb.Table(table_name)
 
 # load trained model into memory once
 try:
@@ -93,10 +106,22 @@ def predict_traffic(request: PredictionRequest):
         # Map numerical prediction back to human-readable label
         result_label = "attack" if prediction == 1 else "normal"
         
+        # Log prediction result to DynamoDB (wrapped in try/except so local testing doesn't crash if AWS creds aren't configured yet)
+        try:
+            table.put_item(
+                Item={
+                    "prediction_id": str(time.time()),
+                    "prediction_code": int(prediction),
+                    "prediction_label": result_label,
+                    **input_data
+                }
+            )
+        except Exception:
+            pass # Skips logging locally if AWS credentials aren't active yet
+
         return {
             "prediction_code": int(prediction),
             "prediction_label": result_label
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Prediction error: {str(e)}")
-
